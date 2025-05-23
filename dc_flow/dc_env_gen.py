@@ -194,6 +194,9 @@ if __name__ == "__main__":
 		if ! [ -d {OUTPUTDIR}/log ];then
 			mkdir {OUTPUTDIR}/log
 		fi
+		if ! [ -d {OUTPUTDIR}/design_data ];then
+			mkdir {OUTPUTDIR}/design_data
+		fi
 	''')
 	gen_dc_run_tcl()
 	gen_dc_parameter_tcl()
