@@ -1,0 +1,99 @@
+#!/bin/bash
+
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # 无颜色
+
+TOP_MODULE=""
+FILE_LIST=""
+COVERAGE=0
+COMPLIE_ONLY=0
+SIMULATE_ONLY=0
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -cov|--coverage)
+            COVERAGE=1
+            ;;
+        -com|--compile)  
+            COMPILE_ONLY=1
+            ;;
+        -sim|--simulation)
+            SIMULATE_ONLY=1
+            ;;
+        *)
+            if [[ -z "$TOP_MODULE" ]]; then
+                TOP_MODULE=$1
+            elif [[ -z "$FILE_LIST" ]]; then  
+                FILE_LIST=$1
+            else
+                echo -e "${RED}错误: 未知参数 $1${NC}" >&2
+                exit 1
+            fi
+            ;;
+    esac
+    shift
+done
+
+COMPILE_OPTS="-sverilog \
++v2k \
+-timescale=1ns/1ps \
+-debug_access+all \
+-debug_region+cell+encrypt \
+-kdb \
+-full64 -l compile.log \
+-f ${FILE_LIST} \
+-top ${TOP_MODULE}
+"
+
+RUN_OPTS="-l simv.log"
+
+compile() {
+    echo -e "${YELLOW}开始编译模块 $TOP_MODULE...${NC}"
+    
+    if [[ $COVERAGE -eq 1 ]]; then
+        COMPILE_OPTS="$COMPILE_OPTS -cm line+cond+fsm+tgl+branch -cm_name ${MODULE_NAME}_cov"
+    fi
+    
+    vcs $COMPILE_OPTS -o simv_${TOP_MODULE}
+    
+    if [[ $? -eq 0 ]]; then
+        echo -e "${GREEN}编译成功${NC}"
+        return 0
+    else
+        echo -e "${RED}编译失败，请查看 compile.log${NC}"
+        return 1
+    fi
+}
+
+simulate() {
+    echo -e "${YELLOW}开始运行模块 $MODULE_NAME...${NC}"
+    
+    if [[ $COVERAGE -eq 1 ]]; then
+        RUN_OPTS="$RUN_OPTS -cm line+cond+fsm+tgl+branch"
+    fi
+    
+    RUN_OPTS="$RUN_OPTS -l simv.log"
+    
+    ./simv_${TOP_MODULE} $RUN_OPTS
+    
+    if [[ $? -eq 0 ]]; then
+        echo -e "${GREEN}运行成功${NC}"
+        return 0
+    else
+        echo -e "${RED}运行失败，请查看 simv.log${NC}"
+        return 1
+    fi
+}
+
+if [[$COMPLIE_ONLY eq 1]]; then
+    compile
+elif [[$SIMULATE_ONLY eq 1]]; then
+    simulate
+else
+    compile && simulate
+fi
+
+exit $?  
