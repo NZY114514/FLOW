@@ -1,0 +1,44 @@
+#├─c                     #C/C++ language model
+#├─de                    #ASCI Design Mainly Work Directory
+#│  │  filelist          #RTL filelist
+#│  └─rtl_ip0            #IP0 RTL files 
+#│  └─rtl_ip1            #IP1 RTL files
+#│  └─rtl_ip2            #IP2 RTL files
+#│
+#├─dv                    #Verification Mainly Work Directory 
+#│  │  filelist          #Verification Filelist
+#│  │  testbench.sv      #Top testbench
+#│  └─env0               #Verification Env0         
+#│  └─env1               #Verification Env0
+#│
+#├─scripts               #Common Used Scripts
+#│      proj_config.csh  #Set Environment Variable  
+#└─sim                   #Simualtion Directory
+#│  run.pl               #Script
+
+#Project should be constructed like that above resulting from run.pl.
+#Before Run our scripts, it is necessary to source the proj_config.csh
+#1st step:
+cd ./sim
+source ../scripts/proj_config.csh
+
+#Now, we are using two-step to compile our project so
+#2nd step:
+run --compile -com_dir=./compile_log 
+#In compile phase, must provide compile log output path(may be improve in next version).
+#You can also add other options to configure vcs precisely like below:
+run --compile -timescale=1ns/1ps -tc=base_test -com_dir=./compile_log -sim_dir=./case0 -comp_opt="${UVM_HOME}/src/dpi/uvm_dpi.cc"
+#Attention, some options for simulation maye not activate in compile like "--waveform" or "-seed".
+
+#Then you can start simulation
+#3rd
+run -sim -tc=base_test -sim_dir=./case0  --waveform -seed=2
+#Likely, you can also add other options during simualtion. And some options for compile may not word in simualtion.
+
+
+#Coverage Generation
+#TODO
+
+#Regression 
+#TODO
+
