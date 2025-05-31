@@ -1,13 +1,14 @@
+#!/usr/bin/perl
 #########################################
-# Copyright (C):2021
+# Copyright (C):2025
 # File Name:run.pl
 # Author:shikai
 # Date:Sat 31 May 2025 06:36:59 PM CST
-# Description:
+# Description: Compile and Simulation Perl Script
 # Modified by: shikai
 # Email: shikai311@outlook.com
 #########################################
-#!/usr/bin/perl
+
 use strict;
 use warnings;
 use Getopt::Long;
