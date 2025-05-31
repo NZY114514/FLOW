@@ -1,5 +1,13 @@
 #!/bin/bash
-
+#########################################
+# Copyright (C):2025
+# File Name:vcs_simulation_script
+# Author:niuzhaoyi
+# Date:Sat 31 May 2025 23:52:00 PM CST
+# Description: script for run vcs complie and simulation
+# Modified by: niuzhaoyi
+# Email: nzy15854811501@163.com
+#########################################
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'

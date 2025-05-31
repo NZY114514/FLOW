@@ -1,3 +1,12 @@
+#########################################
+# Copyright (C):2025
+# File Name:makefile
+# Author:niuzhaoyi
+# Date:Sat 31 May 2025 23:52:00 PM CST
+# Description: makefile for de flow
+# Modified by: niuzhaoyi
+# Email: nzy15854811501@163.com
+#########################################
 TOP_MODULE = tb_lz4_compressor
 FILE_LIST = vcs_filelist.f
 DC_FLOW_ROOT = /home/ICer/FLOW/dc_flow

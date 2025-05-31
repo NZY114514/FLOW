@@ -1,3 +1,13 @@
+#########################################
+# Copyright (C):2025
+# File Name:dc_env_gen.py
+# Author:niuzhaoyi
+# Date:Sat 31 May 2025 23:52:00 PM CST
+# Description: gen dc env and script based on dc_config.py
+# Modified by: niuzhaoyi
+# Email: nzy15854811501@163.com
+#########################################
+
 import os
 import argparse
 
